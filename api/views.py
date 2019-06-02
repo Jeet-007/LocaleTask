@@ -19,7 +19,7 @@ class BookingSerializerView(APIView):
 
 		bookings = Booking.objects.all().order_by('id')[start:start+100]
 		serialized_bookings = BookingSerializer(bookings, many=True)
-		return Response({"status": status.HTTP_200_OK, "total_results":bookings.count(), "page": start/100, "results": serialized_bookings.data})
+		return Response({"status": status.HTTP_200_OK, "total_results":bookings.count(), "page": int(start/100), "results": serialized_bookings.data})
 
 	def post(self, request, format=None):
 		print(request.data)
@@ -68,6 +68,6 @@ class QueryView(APIView):
 		try:
 			results = Booking.objects.filter(**kwargs).order_by('id')[start:start+100]
 			serialized_results = BookingSerializer(results, many=True)
-			return Response({"status": status.HTTP_200_OK, "total_results": results.count(), "page": start/100, "results": serialized_results.data})
+			return Response({"status": status.HTTP_200_OK, "total_results": results.count(), "page": int(start/100), "results": serialized_results.data})
 		except Exception as e:
 			return Response({"status": status.HTTP_204_NO_CONTENT, "message": str(e)})
