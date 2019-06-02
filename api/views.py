@@ -9,6 +9,9 @@ from .serializers import BookingSerializer
 from .models import Booking
 # Create your views here.
 
+def index(request):
+	return render(request, "api/README.md")
+
 class BookingSerializerView(APIView):
 	permission_classes = (AllowAny,)
 
@@ -22,7 +25,7 @@ class BookingSerializerView(APIView):
 		return Response({"status": status.HTTP_200_OK, "total_results":bookings.count(), "page": int(start/100), "results": serialized_bookings.data})
 
 	def post(self, request, format=None):
-		print(request.data)
+		# print(request.data)
 		id = request.data.get('id')
 		user_id = request.data.get('user_id')
 		vehicle_model_id = request.data.get('vehicle_model_id')
